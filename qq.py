@@ -20,14 +20,14 @@ feature_names = [
 st.title("Sepsis Risk Predictor")
 
 # Collect user input
-WBC = st.number_input("White Blood Cell Count (WBC):", min_value=0, max_value=100, value=10)
+WBC = st.number_input("White Blood Cell Count (10^9/L):", min_value=0, max_value=100, value=10)
 Albumin = st.number_input("Albumin (g/dL):", min_value=1, max_value=100, value=4)
-ALT = st.number_input("Alanine transaminase (ALT):", min_value=0, max_value=500, value=35)
-CR = st.number_input("Creatinine (CR):", min_value=0, max_value=10000, value=90)
-uWBC = st.number_input("Urinary WBC (uWBC):", min_value=0, max_value=10000, value=100)
+ALT = st.number_input("Alanine Transaminase (U/L):", min_value=0, max_value=500, value=35)
+CR = st.number_input("Creatinine (umol/L):", min_value=0, max_value=10000, value=90)
+uWBC = st.number_input("Urinary WBC (/μL):", min_value=0, max_value=10000, value=100)
 Surgical_Duration = st.number_input("Surgical Duration (minutes):", min_value=0, max_value=600, value=90)
-Stone_burden = st.number_input("Stone burden (π multiplied by the longest radius and width mm^2):", min_value=0, max_value=1000, value=50)
-Double_J_stent_duration = st.number_input("Double-J stent duration (days):", min_value=0, max_value=1000, value=30)
+Stone_burden = st.number_input("Stone Burden (π multiplied by the longest radius and width mm^2):", min_value=0, max_value=1000, value=50)
+Double_J_stent_duration = st.number_input("Double-J Stent Duration (days):", min_value=0, max_value=1000, value=30)
 
 # Convert the input features to an array for model processing
 feature_values = [WBC, Albumin, ALT, CR, uWBC, Surgical_Duration, Stone_burden, Double_J_stent_duration]
@@ -45,7 +45,7 @@ if st.button("Predict"):
 
     # Display the prediction results
     st.write(f"**Predicted Class:** {'Sepsis' if predicted_class == 1 else 'No Sepsis'}")
-    st.write(f"**Prediction Probabilities:** {predicted_proba}")
+    st.write(f"**Probability of Sepsis:** {predicted_proba[1]:.2f}")
 
     # Provide advice based on the prediction
     probability = predicted_proba[predicted_class] * 100
