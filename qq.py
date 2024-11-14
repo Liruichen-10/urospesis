@@ -3,6 +3,7 @@ import joblib
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import shap, io, base64
 
 
 # Load the model
@@ -31,7 +32,8 @@ Double_J_stent_duration = st.number_input("Double-J stent duration (days):", min
 # Convert the input features to an array for model processing
 feature_values = [WBC, Albumin, ALT, CR, uWBC, Surgical_Duration, Stone_burden, Double_J_stent_duration]
 
-features =np.array([feature_values])
+features = np.array([feature_values])
+df_features = pd.DataFrame([feature_values], columns=feature_names)
 
 # Make predictions when the user clicks "Predict"
 if st.button("Predict"):
@@ -59,5 +61,14 @@ if st.button("Predict"):
             f"The model predicts that your probability of not having sepsis is {probability:.1f}%. "
             "Keep monitoring your health and consult a doctor if you have any concerns."
         )
-    st.write(advice)
+    explainer = shap.Explainer(model)
+    shap_values = explainer.shap_values(features)
+    shap_plot = shap.force_plot(explainer.expected_value, shap_values[0].T[1], df_features.iloc[0, :], show=False, matplotlib=True)
 
+    save_file = io.BytesIO()
+    plt.savefig(save_file, format='png', bbox_inches="tight")
+    save_file_base64 = base64.b64encode(save_file.getvalue()).decode('utf8')
+
+    st.image(f"data:image/png;base64,{save_file_base64}")
+    
+    #shap.save_html("force_plot.html", shap_plot)
