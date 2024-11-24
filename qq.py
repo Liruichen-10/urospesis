@@ -26,7 +26,7 @@ ALT = st.number_input("Alanine Transaminase (U/L):", min_value=0, max_value=500,
 CR = st.number_input("Creatinine (umol/L):", min_value=0, max_value=10000, value=90)
 uWBC = st.number_input("Urinary WBC (/μL):", min_value=0, max_value=10000, value=100)
 Surgical_Duration = st.number_input("Surgical Duration (minutes):", min_value=0, max_value=600, value=90)
-Stone_burden = st.number_input("Stone Burden (π multiplied by the longest radius and width mm^2):", min_value=0, max_value=1000, value=50)
+Stone_burden = st.number_input("Stone Burden (mm^2):", min_value=0, max_value=1000, value=50)
 Double_J_stent_duration = st.number_input("Double-J Stent Duration (days):", min_value=0, max_value=1000, value=30)
 
 # Convert the input features to an array for model processing
